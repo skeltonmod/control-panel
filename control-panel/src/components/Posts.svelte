@@ -1,12 +1,13 @@
 <script>
     import { faker } from "@faker-js/faker";
+    import routes from "../utils/APIRoutes";
     const status = [
         {
             name: "posted",
             color: "green",
         },
         {
-            name: "pending",
+            name: "scheduled",
             color: "yellow",
         },
         {
@@ -18,16 +19,19 @@
             color: "red",
         },
     ];
-    const posts = [];
+    let posts = [];
 
-    for (let i = 0; i < 32; i++) {
-        posts.push({
-            name: faker.lorem.sentence(1),
-            url: faker.internet.url(),
-            status: status[Math.floor(Math.random() * status.length)],
+    (async () => {
+        await routes.fetch_posts('9968b4a6-3908-4592-a029-362481ae1a24').then(r => {
+            posts = r.data.map(item => {
+                return {
+                    name: item.article.title,
+                    status: status.filter(data => data.name == item.post_status)[0],
+                    url: item.website_url || "No Site"
+                }
+            })
         });
-    }
-    console.log(posts);
+    })();
 </script>
 
 <table class="tui-table">

@@ -1,15 +1,14 @@
 <script>
     import { faker } from "@faker-js/faker";
-    const users = [];
+    import routes from "../utils/APIRoutes";
 
-    for (let i = 0; i < 32; i++) {
-        users.push({
-            name: faker.person.fullName(),
-            post_count: faker.number.int(400),
-            id: faker.string.uuid(),
+    let users = [];
+
+    (async () => {
+        await routes.fetch_users().then(r => {
+            users = r.data
         });
-    }
-    console.log(users);
+    })();
 </script>
 
 <table class="tui-table">
@@ -17,7 +16,7 @@
         <tr>
             <th>User ID</th>
             <th>Name</th>
-            <th>Post Count</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -25,7 +24,7 @@
             <tr>
                 <td>{user.id}</td>
                 <td>{user.name}</td>
-                <td>{user.post_count}</td>
+                <td><button class="tui-button">View</button> <button class="tui-button">Impersonate</button></td>
             </tr>
         {/each}
     </tbody>
