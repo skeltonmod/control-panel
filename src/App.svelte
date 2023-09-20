@@ -1,6 +1,8 @@
 <script>
   import Dashboard from "./components/Dashboard.svelte";
   import Posts from "./components/Posts.svelte";
+  import { EasyrouteProvider, RouterOutlet } from "@easyroute/svelte";
+  import router from "./router";
 </script>
 
 <div class="container" style="margin-top: 2rem;">
@@ -10,7 +12,9 @@
         <fieldset class="tui-fieldset">
           <legend>GNN CONTROL PANEL</legend>
           <div>
-            <Posts />
+            <EasyrouteProvider {router}>
+              <RouterOutlet />
+            </EasyrouteProvider>
           </div>
         </fieldset>
       </div>
